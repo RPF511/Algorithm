@@ -1,3 +1,3 @@
-#Traveling Salesman Problem
+# Traveling Salesman Problem
 --------
-'multiplearray.h' and 'multiplearray.c' is in [Data_Structure](https://github.com/RPF511/Data_Structure)
+* 'multiplearray.h' and 'multiplearray.c' is in [Data_Structure](https://github.com/RPF511/Data_Structure)
