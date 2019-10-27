@@ -12,6 +12,7 @@
   (byte & 0x02 ? '1' : '0'), \
   (byte & 0x01 ? '1' : '0') 
 
+//graph
 typedef struct graph{
     int size;
     int **edge;
@@ -34,10 +35,7 @@ int my_pow(int x,int y){
     return sum;
 }
 
-int swift_up(int n, int i){
-    return n<<i;
-}
-
+//set the dp array : set the destination node. dp[i][j] means starts from 'i', via 'j', destination is 'end'. in this example, it's 0;
 void set_dp(int **arr, graph *gr, int end){
     for(int i = 0; i<gr->size; i++){
         for(int j = 0; j<my_pow(2,gr->size); j++){
@@ -49,8 +47,11 @@ void set_dp(int **arr, graph *gr, int end){
     }
 }
 
+//get the dp[i][j] : used recursion + memoization
+//A node that passes through is represented by a bit of an int variable.
+//1 means passes that node and 0 means not passing that node. for example, via {node(1),node(3)} is int via = 0x1010
 int get_dp(graph * gr, int **dp, int start, int via){
-    printf("-----------------------------\n");
+    //printf("-----------------------------\n");
     if(via == 0){
         printf("via is 0 dp[%d][0] is %d\n",start,dp[start][0]);
         return dp[start][0];
@@ -90,6 +91,7 @@ int get_dp(graph * gr, int **dp, int start, int via){
         printf("dp\n");
         print_2dim_array(dp,gr->size,my_pow(2,gr->size));
         return dp[start][via];
+        //if not printing line 89, 91, 92, use this return
         //return dp[start][via] = sum;
     }
     
@@ -97,18 +99,20 @@ int get_dp(graph * gr, int **dp, int start, int via){
 }
 
 int main(void){
+    //example with 4 nodes
     int ex[] = {0,7,5,2,8,0,9,INT_MAX,4,INT_MAX,0,7,3,10,INT_MAX,0};
     graph *map = (graph *)malloc(sizeof(graph));
     int **dp;
+    printf("4 node example. input 4.\n");
     initialize_graph(map);
     input_2dim_array(map -> edge, ex, 16);
     dp = mk_2dim_array(map->size, my_pow(2,map->size));
     set_dp(dp, map, 0);
 
-    printf("edge of the graph\n");
-    print_2dim_array(map -> edge,4,4);
-    printf("\ndp initialized\n");
-    print_2dim_array(dp,4,16);
+    //printf("edge of the graph\n");
+    //print_2dim_array(map -> edge,4,4);
+    //printf("\ndp initialized\n");
+    //print_2dim_array(dp,4,16);
 
     /*
     int bit = 1;
@@ -116,7 +120,7 @@ int main(void){
     bit = bit << 1;
     printf(BYTE_TO_BINARY_PATTERN"\n", BYTE_TO_BINARY(bit));
     */
-    printf("\n from 0 via all end 0 is\n%d\n",get_dp(map, dp, 0, 14));
+    printf("\n from 0 via all end 0 is %d\n",get_dp(map, dp, 0, 14));
 
 
     delete_2dim_array(dp);
