@@ -2,6 +2,15 @@
 #include <limits.h>
 #include "multiplearray.h"
 
+//mypow
+int my_pow(int x,int y){
+    int sum;
+    for(sum = 1;y>0;y--){
+        sum *= x;
+    }
+    return sum;
+}
+
 //struct circular linked list
 typedef struct circle{
     int index;
@@ -70,14 +79,7 @@ void delete_graph(graph *gr){
     free(gr->path);
     free(gr);
 }
-//mypow
-int my_pow(int x,int y){
-    int sum;
-    for(sum = 1;y>0;y--){
-        sum *= x;
-    }
-    return sum;
-}
+
 
 //set the dp array : set the destination node. dp[i][j] means starts from 'i', via 'j', destination is 'end'. in this example, it's 0;
 //A node that passes through is represented by a bit of an int variable.
