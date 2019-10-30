@@ -63,7 +63,16 @@ void print_circle(circle *cir,int start, int num){
     }
     printf("\n");
 }
-
+//delete circle
+void delete_circle(circle *cir, int num){
+    circle *temp = cir;
+    circle *next = cir -> after;
+    for(int i=0;i<num;i++){
+        free(temp);
+        temp = next;
+        next = temp -> after; 
+    }
+}
 //initialize the graph
 void initialize_graph(graph *gr){
     scanf("%d",&gr->size);
@@ -76,6 +85,7 @@ void initialize_graph(graph *gr){
 void delete_graph(graph *gr){
     delete_2dim_array(gr -> edge);
     delete_2dim_array(gr->tsp);
+    delete_circle(gr->path,gr->size);
     free(gr->path);
     free(gr);
 }
@@ -99,17 +109,17 @@ void set_dp(graph *gr, int end){
 //(gr : graph, start : start node, via : via nodes using bits, stat : for recording path, c_temp : temporary path)
 //stat : (number of node - stat) means number of nodes in via. use this variable to save temporary path.
 //        for ex) circle_next(c_temp,stat+1) -> index = index;
-int cal_dp(graph * gr, int start, int via, int stat, circle *c_temp){  
+int cal_dp(graph * gr, int start, int via, int stat, circle *c_temp_here){  
     //in case via == 0
     if(via == 0){
         //case : the road has been cut off at the end
         if(gr->tsp[start][0] == INT_MAX){
-            if(!gr->stat)circle_next(c_temp,stat) -> index = INT_MAX;
+            if(!gr->stat)circle_next(c_temp_here,stat) -> index = INT_MAX;
             return INT_MAX;
         }
         //case : the road has not been cut off at the end
         else{
-            if(!gr->stat)circle_next(gr->path,stat) -> index = start;
+            if(!gr->stat)circle_next(c_temp_here,stat) -> index = start;
             return gr->edge[start][0];
         }
     }
@@ -122,6 +132,10 @@ int cal_dp(graph * gr, int start, int via, int stat, circle *c_temp){
         int sum = INT_MAX;   //whole distance
         int bit = 1;
         int temp = INT_MAX;  //temporary distance
+        //make temporary circle
+        circle * c_temp = initialize_circle(gr->size);
+        circle_cpy(c_temp,c_temp_here,gr->size);
+        circle_next(c_temp,stat) -> index = start;
         //in this for : pick each nodes from via and calculate each shortest distances
         //save and return 
         for(int index=0; index<gr->size;index++){
@@ -129,8 +143,6 @@ int cal_dp(graph * gr, int start, int via, int stat, circle *c_temp){
             if((bit & via) != 0){
                 //when gr->edge[start][index] != INT_MAX, we don't have to calculate them. there is no roads
                 if(gr->edge[start][index] != INT_MAX){
-                    //save current path to the temporary path variable
-                    circle_next(c_temp,stat+1) -> index = index;
                     //calculate gr -> edge[start][index] + dp[start : index][via : via^bit]
                     temp = gr -> edge[start][index] + cal_dp(gr, index, via^bit,stat+1,c_temp);
                 }
@@ -138,13 +150,15 @@ int cal_dp(graph * gr, int start, int via, int stat, circle *c_temp){
                 //if temp < 0 , somehow cal_dp was INT_MAX
                 if(temp < sum && temp > 0){
                     //copy temporary path to path log
-                    circle_cpy(gr->path,c_temp,gr->size);
+                    circle_cpy(c_temp_here,c_temp,gr->size);
                     sum = temp;
                 }
             }
             //next bit
             bit = bit << 1;
         }
+        circle_cpy(gr->path,c_temp_here,gr->size);
+        delete_circle(c_temp,gr->size);
         return gr->tsp[start][via] = sum;
     }
     
@@ -179,7 +193,8 @@ int main(void){
     print_2dim_array(map->tsp,map->size,my_pow(2,map->size));
 
     //free memory
+    delete_circle(c_temp,map->size);
     delete_graph(map);
-    free(c_temp);
+    
     return 0;
 }
