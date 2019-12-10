@@ -14,12 +14,13 @@ void main(void){
     int max = 0;
 
     //node
-    bagnode * head = mkbagnode(0,0,0 + bound(wmax,weight,pw,4),0);
+    bagnode * head = mkbagnode(0,0,(0 + bound(wmax,weight+0,pw,4)),0);
     insert(heap,head -> bound, head);
+    printh(heap);
     
     bfs_bag(heap,&max,wmax,weight,pw,noe);
 
-    printf("%d",max);
+    printf("%d\n",max);
 
     
     free(heap);

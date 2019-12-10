@@ -11,7 +11,7 @@ bagnode * mkbagnode(int profit, int weight, int bound, int index){
     return temp;
 }
 
-int bound(int max,int *weight, int *pw, int size){
+int bound(int max,int * weight, int * pw, int size){
     int cur = 0, res = 0;
     for(int i=0;i<size;i++){
         if(cur >= max){
@@ -36,6 +36,7 @@ void bfs_bag_node(HeapType * heap, int *max,int wmax, int *weight, int *pw,int n
         bagnode * node = heap -> cur;
         int btemp;
         int ptemp;
+        
 
         if(weight[node -> index + 1] + node -> weight <= wmax){
             ptemp = node -> profit + pw[node -> index + 1] * weight[node -> index + 1];
@@ -62,8 +63,8 @@ void bfs_bag_node(HeapType * heap, int *max,int wmax, int *weight, int *pw,int n
     }
 }
 void bfs_bag(HeapType * heap,int *max,int wmax,int *weight, int *pw,int noe){
-    bagnode * node;
-    while(!(heap -> heapsize)){
+    printf("heapsize %d\n",heap -> heapsize);
+    while(heap -> heapsize){
         bfs_bag_node(heap,max,wmax,weight,pw,noe);
         printh(heap);
     }
