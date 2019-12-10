@@ -7,6 +7,7 @@ void printh(HeapType *h){
     printf("\n");
 }
 void insert(HeapType *h, int node, bagnode * nlink){
+    //printf("\n\n heap insert process\n");
     h -> heapsize++;
     if(h -> heapsize == 1){
         h -> heap[1] = node;
@@ -14,7 +15,12 @@ void insert(HeapType *h, int node, bagnode * nlink){
         //printh(h);
     }
     else{
+        /*for(int i = 1;i<h->heapsize+1;i++)
+            printf("%p ",h->link[i]);
+        printf("\n");*/
+
         h -> heap[h -> heapsize] = node;
+        h -> link[h -> heapsize] = nlink;
         int n, m;
         bagnode * nlink, *mlink;
         for(int i = h->heapsize;i > 1;i/=2){
@@ -27,6 +33,10 @@ void insert(HeapType *h, int node, bagnode * nlink){
                 h->link[i] = mlink;
                 h->heap[i/2] = n;
                 h->link[i/2] = nlink;
+
+                /*for(int i = 1;i<h->heapsize+1;i++)
+                    printf("%p ",h->link[i]);
+                printf("\n");*/
                 //printh(h);
             }
         }

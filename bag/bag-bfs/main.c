@@ -22,7 +22,7 @@ void main(void){
     
     bfs_bag(heap,&max,wmax,weight,pw,noe);
 
-    printf("%d\n",max);
+    printf("max : %d\n",max);
 
     
     free(heap);
