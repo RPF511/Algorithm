@@ -70,6 +70,6 @@ int delete(HeapType *h){
         }
         i = n;
     }
-    h -> cur = curlink;
+    h -> cur = maxlink;
     return max;
 }

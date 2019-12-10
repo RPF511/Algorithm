@@ -5,6 +5,8 @@
 
 void main(void){
     HeapType * heap = (HeapType *)malloc(sizeof(HeapType));
+    heap -> heap[0] = 0;
+    heap -> link[0] = NULL;
 
     //elements : save each element's weight and price/weight
     int noe = 4;
