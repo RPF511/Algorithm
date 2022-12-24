@@ -42,13 +42,12 @@ Pivot value is median number among the first, the last, and the mid elements bet
 This method usually operated fewer swaps than the random selection method, and was slightly faster.
 
 ## Quick Mid Expect
-In this special case, each element is uniformly distributed between 0 and n.
-Therefore, the expected median number value for each partition function will be determined to some extent.
+In this special case, each element is uniformly distributed between 0 and n.  
+Therefore, the expected median number value for each partition function will be determined to some extent.  
 For example when n = 100, the median number in each partition function will be 50, 25, 75, 12.5, 27.5, ......
   
-I came up with a method to choose a number which is as close as possible to the expected median as a pivot.
-Since It would take too long if i compare too many numbers with expected median, I compared only 
-log<sub>2</sub>(high-low) times in each partition function.
+I came up with a method to choose a number which is as close as possible to the expected median as a pivot.  
+Since It would take too long if i compare too many numbers with expected median, I compared only log<sub>2</sub>(high-low) times in each partition function.
 
 ~~~
 //pseudo code
@@ -66,7 +65,7 @@ for(loop count log2(high-low)){
 Since log2() function in <math.h> was slow, I transferred the log value as a function parameter and divided it by two.
 
 ## Result
-When N is big enough, my "Quick Mid Expect Method" usually operated fewer comparison and fewer swaps than the "Quick Random Method", and was definitely faster.
+When N is big enough, my "Quick Mid Expect Method" usually operated fewer comparison and fewer swaps than the "Quick Random Method", and was definitely faster.  
 When N is big enough, my "Quick Mid Expect Method" usually operated fewer comparison and more swap than the "Quick Middle 3 Method", and was slightly faster.
   
 "Quick Mid Expect Method" seems good choice when each element is uniformly distributed.
