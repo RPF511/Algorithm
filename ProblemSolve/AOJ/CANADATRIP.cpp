@@ -29,7 +29,7 @@ int count_sign(vector<vector<int>> & map, int l){
 
 
 int bsearch_map(vector<vector<int>> & map, int k){
-    // print_map(map);
+    print_map(map);
     int low = -1, high = map[map.size()-1][0];
     // cout << "low " << low <<" high "<< high <<"\n";
     int mid = 0;
@@ -62,7 +62,9 @@ int main(void){
             map[cityidx * 2 +1][0] = l_temp;
             map[cityidx * 2 +1][1] = -g_temp;
         }
-        // print_map(map);
+        printf("\n");
+        print_map(map);
+        printf("\n");
         sort(map.begin(),map.end(),cmp);
         printf("%d\n",bsearch_map(map,result_num));
         // print_map(map);
